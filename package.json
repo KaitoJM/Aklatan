@@ -11,6 +11,8 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "migrate:books": "node scripts/migrate-books.mjs",
+    "migrate:contents": "node scripts/migrate-contents.mjs",
+    "migrate:fresh": "node scripts/migrate-fresh.mjs",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
