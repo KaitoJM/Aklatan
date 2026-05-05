@@ -3,6 +3,8 @@ import type { Book } from "~/types/books.types";
 import type { Content } from "~/types/content.types";
 import type { Page } from "~/types/page.types";
 
+definePageMeta({ layout: "reader" });
+
 const route = useRoute();
 const bookSlug = computed(() => String(route.params.slug));
 const contentSlug = computed(() => String(route.params.contentSlug));
@@ -37,26 +39,38 @@ function pageUrl(p: Page) {
 </script>
 
 <template>
+  <div class="fixed inset-0 -z-10 overflow-hidden">
+    <Transition name="bg-fade">
+      <img
+        v-if="page"
+        :key="page.coverImage"
+        :src="page.coverImage"
+        class="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl brightness-50"
+        aria-hidden="true"
+      />
+    </Transition>
+  </div>
+
   <div class="space-y-6">
     <NuxtLink
       v-if="book && content"
       :to="`/books/${book.slug}`"
-      class="inline-flex text-sm font-medium text-slate-600 transition hover:text-slate-950"
+      class="inline-flex text-sm font-medium text-white/70 transition hover:text-white"
     >
       ← Back to book
     </NuxtLink>
 
     <section
       v-if="error"
-      class="rounded border border-red-200 bg-red-50 px-6 py-5"
+      class="rounded border border-red-400/30 bg-red-950/70 px-6 py-5 backdrop-blur-sm"
     >
-      <h1 class="text-base font-semibold text-red-950">Unable to load page</h1>
-      <p class="mt-2 text-sm text-red-800">
+      <h1 class="text-base font-semibold text-red-200">Unable to load page</h1>
+      <p class="mt-2 text-sm text-red-300">
         {{ error.statusMessage || error.message }}
       </p>
       <button
         type="button"
-        class="mt-4 h-10 rounded bg-red-950 px-4 text-sm font-medium text-white transition hover:bg-red-800"
+        class="mt-4 h-10 rounded bg-red-800 px-4 text-sm font-medium text-white transition hover:bg-red-700"
         @click="refresh()"
       >
         Retry
@@ -65,25 +79,25 @@ function pageUrl(p: Page) {
 
     <section
       v-else-if="pending"
-      class="rounded border border-slate-200 bg-white px-6 py-12 text-center"
+      class="rounded bg-white/10 px-6 py-12 text-center backdrop-blur-sm"
     >
-      <h1 class="text-lg font-semibold text-slate-950">Loading</h1>
-      <p class="mt-2 text-sm text-slate-600">
+      <h1 class="text-lg font-semibold text-white">Loading</h1>
+      <p class="mt-2 text-sm text-white/60">
         Opening page from the library database.
       </p>
     </section>
 
     <template v-else-if="book && content && page">
-      <div class="space-y-1 border-b border-slate-200 pb-5">
-        <p class="text-xs font-medium uppercase tracking-wide text-emerald-700">
+      <div class="space-y-1 pb-2">
+        <p class="text-xs font-medium uppercase tracking-wide text-white/50">
           {{ book.title }} · {{ content.title }}
         </p>
         <h1
-          class="text-2xl font-semibold tracking-tight text-slate-950 md:text-3xl"
+          class="text-2xl font-semibold tracking-tight text-white md:text-3xl"
         >
           {{ page.title }}
         </h1>
-        <p class="text-sm text-slate-400">
+        <p class="text-sm text-white/40">
           {{ book.author }} · Page {{ pageIndex + 1 }} of {{ pages.length }}
         </p>
       </div>
@@ -93,37 +107,33 @@ function pageUrl(p: Page) {
           <img
             :src="page.coverImage"
             :alt="`${page.title} illustration`"
-            class="w-full rounded border border-slate-200 object-cover shadow-sm"
+            class="w-full rounded shadow-2xl ring-1 ring-white/10"
           />
         </div>
 
-        <article
-          class="min-w-0 rounded border border-slate-200 bg-white p-6 shadow-sm"
-        >
+        <article class="min-w-0 rounded backdrop-blur-sm">
           <div class="prose prose-slate max-w-none" v-html="page.body" />
         </article>
       </div>
 
-      <nav
-        class="flex items-center justify-between border-t border-slate-200 pt-5"
-      >
+      <nav class="flex items-center justify-between pt-4">
         <NuxtLink
           v-if="prevPage"
           :to="pageUrl(prevPage)"
-          class="inline-flex h-10 items-center gap-2 rounded border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
+          class="inline-flex h-10 items-center gap-2 rounded bg-white/10 px-4 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white/20"
         >
           ← {{ prevPage.title }}
         </NuxtLink>
         <span v-else />
 
-        <span class="text-sm text-slate-400">
+        <span class="text-sm text-white/40">
           {{ pageIndex + 1 }} / {{ pages.length }}
         </span>
 
         <NuxtLink
           v-if="nextPage"
           :to="pageUrl(nextPage)"
-          class="inline-flex h-10 items-center gap-2 rounded border border-slate-300 bg-white px-4 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
+          class="inline-flex h-10 items-center gap-2 rounded bg-white/10 px-4 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white/20"
         >
           {{ nextPage.title }} →
         </NuxtLink>
@@ -132,3 +142,16 @@ function pageUrl(p: Page) {
     </template>
   </div>
 </template>
+
+<style scoped>
+.bg-fade-enter-active,
+.bg-fade-leave-active {
+  transition: opacity 0.7s ease;
+  position: absolute;
+  inset: 0;
+}
+.bg-fade-enter-from,
+.bg-fade-leave-to {
+  opacity: 0;
+}
+</style>
