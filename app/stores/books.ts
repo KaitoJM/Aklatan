@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import books from '~/data/books.json'
 
 export type Book = {
   id: string
@@ -13,9 +12,11 @@ export type Book = {
 const allAuthorsLabel = 'All authors'
 
 export const useBooksStore = defineStore('books', () => {
-  const bookRecords = ref<Book[]>(books as Book[])
+  const bookRecords = ref<Book[]>([])
   const searchQuery = ref('')
   const selectedAuthor = ref(allAuthorsLabel)
+  const isLoading = ref(false)
+  const errorMessage = ref('')
 
   const authors = computed(() => [
     allAuthorsLabel,
@@ -51,12 +52,28 @@ export const useBooksStore = defineStore('books', () => {
     selectedAuthor.value = allAuthorsLabel
   }
 
+  async function fetchBooks() {
+    isLoading.value = true
+    errorMessage.value = ''
+
+    try {
+      bookRecords.value = await $fetch<Book[]>('/api/books')
+    } catch (error) {
+      errorMessage.value = error instanceof Error ? error.message : 'Unable to load books.'
+    } finally {
+      isLoading.value = false
+    }
+  }
+
   return {
     books: bookRecords,
     searchQuery,
     selectedAuthor,
+    isLoading,
+    errorMessage,
     authors,
     filteredBooks,
+    fetchBooks,
     setSearchQuery,
     setSelectedAuthor,
     clearFilters

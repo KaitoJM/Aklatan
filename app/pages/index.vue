@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const booksStore = useBooksStore()
 
+await callOnce('books', () => booksStore.fetchBooks())
+
 const searchQuery = computed({
   get: () => booksStore.searchQuery,
   set: (query) => booksStore.setSearchQuery(query)
@@ -14,6 +16,8 @@ const selectedAuthor = computed({
 const authors = computed(() => booksStore.authors)
 const filteredBooks = computed(() => booksStore.filteredBooks)
 const totalBooks = computed(() => booksStore.books.length)
+const isLoading = computed(() => booksStore.isLoading)
+const errorMessage = computed(() => booksStore.errorMessage)
 </script>
 
 <template>
@@ -76,7 +80,38 @@ const totalBooks = computed(() => booksStore.books.length)
     </section>
 
     <section
-      v-if="filteredBooks.length"
+      v-if="errorMessage"
+      class="rounded border border-red-200 bg-red-50 px-6 py-5"
+    >
+      <h2 class="text-base font-semibold text-red-950">
+        Unable to load catalog
+      </h2>
+      <p class="mt-2 text-sm text-red-800">
+        {{ errorMessage }}
+      </p>
+      <button
+        type="button"
+        class="mt-4 h-10 rounded bg-red-950 px-4 text-sm font-medium text-white transition hover:bg-red-800"
+        @click="booksStore.fetchBooks()"
+      >
+        Retry
+      </button>
+    </section>
+
+    <section
+      v-else-if="isLoading"
+      class="rounded border border-slate-200 bg-white px-6 py-12 text-center"
+    >
+      <h2 class="text-lg font-semibold text-slate-950">
+        Loading books
+      </h2>
+      <p class="mt-2 text-sm text-slate-600">
+        Fetching the latest catalog from the library database.
+      </p>
+    </section>
+
+    <section
+      v-else-if="filteredBooks.length"
       class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
     >
       <article
