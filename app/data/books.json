@@ -1,0 +1,50 @@
+[
+  {
+    "id": "noli-me-tangere",
+    "slug": "noli-me-tangere",
+    "title": "Noli Me Tangere",
+    "author": "Jose Rizal",
+    "coverImage": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=600&q=80",
+    "summary": "A social novel that follows Crisostomo Ibarra as he returns to the Philippines and confronts corruption, injustice, and colonial abuse."
+  },
+  {
+    "id": "el-filibusterismo",
+    "slug": "el-filibusterismo",
+    "title": "El Filibusterismo",
+    "author": "Jose Rizal",
+    "coverImage": "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=600&q=80",
+    "summary": "A darker sequel centered on Simoun, whose plans for revenge expose the despair and unrest beneath colonial society."
+  },
+  {
+    "id": "florante-at-laura",
+    "slug": "florante-at-laura",
+    "title": "Florante at Laura",
+    "author": "Francisco Balagtas",
+    "coverImage": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=600&q=80",
+    "summary": "A metrical romance of love, betrayal, exile, and honor, written as an enduring classic of Philippine literature."
+  },
+  {
+    "id": "ibong-adarna",
+    "slug": "ibong-adarna",
+    "title": "Ibong Adarna",
+    "author": "Anonymous",
+    "coverImage": "https://images.unsplash.com/photo-1476275466078-4007374efbbe?auto=format&fit=crop&w=600&q=80",
+    "summary": "A folk epic about three princes who search for a magical bird whose song can heal their ailing father."
+  },
+  {
+    "id": "the-little-prince",
+    "slug": "the-little-prince",
+    "title": "The Little Prince",
+    "author": "Antoine de Saint-Exupery",
+    "coverImage": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=600&q=80",
+    "summary": "A poetic tale about a young traveler from another planet, exploring friendship, wonder, loneliness, and what adults often forget."
+  },
+  {
+    "id": "pride-and-prejudice",
+    "slug": "pride-and-prejudice",
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "coverImage": "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=600&q=80",
+    "summary": "A sharp comedy of manners following Elizabeth Bennet, family expectations, first impressions, and the slow correction of prejudice."
+  }
+]
