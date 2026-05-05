@@ -12,7 +12,7 @@ await loadEnv(resolve(rootDir, '.env'))
 const uri = process.env.MONGODB_URI
 const dbName = process.env.MONGODB_DB_NAME || 'aklatan'
 const booksCollection = process.env.MONGODB_BOOKS_COLLECTION || 'books'
-const contentsCollection = process.env.MONGODB_CONTENTS_COLLECTION || 'contents'
+const pagesCollection = process.env.MONGODB_PAGES_COLLECTION || 'pages'
 
 if (!uri) {
   console.error('MONGODB_URI is required.')
@@ -35,10 +35,10 @@ try {
 
   const db = client.db(dbName)
   const books = db.collection(booksCollection)
-  const contents = db.collection(contentsCollection)
+  const pages = db.collection(pagesCollection)
 
-  await contents.createIndex({ bookId: 1, slug: 1 }, { unique: true, name: 'contents_bookId_slug_unique' })
-  await contents.createIndex({ bookId: 1, order: 1 }, { name: 'contents_bookId_order' })
+  await pages.createIndex({ contentId: 1, slug: 1 }, { unique: true, name: 'pages_contentId_slug_unique' })
+  await pages.createIndex({ contentId: 1, order: 1 }, { name: 'pages_contentId_order' })
 
   let totalInserted = 0
   let totalModified = 0
@@ -56,41 +56,49 @@ try {
       continue
     }
 
-    const now = new Date()
-
-    const operations = raw.contents.map((item) => ({
-      updateOne: {
-        filter: { bookId: book.id, slug: item.slug },
-        update: {
-          $set: {
-            id: `${book.id}-${item.slug}`,
-            bookId: book.id,
-            slug: item.slug,
-            title: item.title,
-            coverImage: item.coverImage,
-            order: item.order,
-            updatedAt: now
-          },
-          $setOnInsert: {
-            createdAt: now
-          }
-        },
-        upsert: true
+    for (const contentItem of raw.contents) {
+      if (!Array.isArray(contentItem.pages) || !contentItem.pages.length) {
+        continue
       }
-    }))
 
-    const result = operations.length
-      ? await contents.bulkWrite(operations, { ordered: false })
-      : { matchedCount: 0, modifiedCount: 0, upsertedCount: 0 }
+      const now = new Date()
+      const contentId = `${book.id}-${contentItem.slug}`
 
-    console.log(`  "${raw.title}": ${raw.contents.length} chapters — matched ${result.matchedCount}, modified ${result.modifiedCount}, inserted ${result.upsertedCount}`)
+      const operations = contentItem.pages.map((page) => ({
+        updateOne: {
+          filter: { contentId, slug: page.slug },
+          update: {
+            $set: {
+              contentId,
+              slug: page.slug,
+              title: page.title,
+              body: page.body,
+              coverImage: page.coverImage,
+              order: page.order,
+              updatedAt: now
+            },
+            $setOnInsert: {
+              id: `${contentId}-${page.slug}`,
+              createdAt: now
+            }
+          },
+          upsert: true
+        }
+      }))
 
-    totalMatched += result.matchedCount
-    totalModified += result.modifiedCount
-    totalInserted += result.upsertedCount
+      const result = operations.length
+        ? await pages.bulkWrite(operations, { ordered: false })
+        : { matchedCount: 0, modifiedCount: 0, upsertedCount: 0 }
+
+      console.log(`  "${raw.title}" > "${contentItem.title}": ${contentItem.pages.length} pages — matched ${result.matchedCount}, modified ${result.modifiedCount}, inserted ${result.upsertedCount}`)
+
+      totalMatched += result.matchedCount
+      totalModified += result.modifiedCount
+      totalInserted += result.upsertedCount
+    }
   }
 
-  console.log(`\nContents migration complete.`)
+  console.log(`\nPages migration complete.`)
   console.log(`Total matched: ${totalMatched}`)
   console.log(`Total modified: ${totalModified}`)
   console.log(`Total inserted: ${totalInserted}`)
@@ -112,14 +120,18 @@ function validateContentFile(raw, filePath) {
   }
 
   for (const [i, item] of raw.contents.entries()) {
-    for (const field of ['slug', 'title', 'coverImage']) {
-      if (typeof item[field] !== 'string' || !item[field].trim()) {
-        throw new Error(`${filePath}: contents[${i}] is missing required string field "${field}".`)
-      }
-    }
+    if (!Array.isArray(item.pages)) continue
 
-    if (typeof item.order !== 'number') {
-      throw new Error(`${filePath}: contents[${i}] is missing required number field "order".`)
+    for (const [j, page] of item.pages.entries()) {
+      for (const field of ['slug', 'title', 'body', 'coverImage']) {
+        if (typeof page[field] !== 'string' || !page[field].trim()) {
+          throw new Error(`${filePath}: contents[${i}].pages[${j}] is missing required string field "${field}".`)
+        }
+      }
+
+      if (typeof page.order !== 'number') {
+        throw new Error(`${filePath}: contents[${i}].pages[${j}] is missing required number field "order".`)
+      }
     }
   }
 }

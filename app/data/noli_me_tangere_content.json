@@ -1,20 +1,41 @@
-[
-  {
-    "bookId": "noli-me-tangere",
-    "title": "Chapter 1: A Gathering",
-    "content": "<h2>A Gathering</h2><p>At a grand dinner in Manila, guests from different corners of colonial society trade rumors, compliments, and sharp observations. The event introduces the tensions that shape the world of the novel: status, power, faith, and reputation.</p><p>The chapter sets the stage for Crisostomo Ibarra's return and the uneasy welcome awaiting him.</p>",
-    "image": "https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=1200&q=80"
-  },
-  {
-    "bookId": "noli-me-tangere",
-    "title": "Chapter 2: Crisostomo Ibarra",
-    "content": "<h2>Crisostomo Ibarra</h2><p>Crisostomo Ibarra arrives after years of study abroad. His manners and education impress some guests, while others measure him against the memory of his late father and the politics surrounding his family.</p><p>His return begins as a hopeful homecoming, but the evening hints that old wounds remain unsettled.</p>",
-    "image": "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=80"
-  },
-  {
-    "bookId": "noli-me-tangere",
-    "title": "Chapter 3: Dinner Conversations",
-    "content": "<h2>Dinner Conversations</h2><p>The dinner table becomes a quiet battleground of opinions. Ibarra listens, speaks carefully, and begins to understand how fragile truth can be when filtered through pride, influence, and fear.</p><p>Behind polite conversation, the forces that will oppose him are already taking shape.</p>",
-    "image": "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1200&q=80"
-  }
-]
+{
+  "title": "Noli Me Tangere",
+  "contents": [
+    {
+      "slug": "chapter-1-a-gathering",
+      "title": "I - Isang Pagcacapisan",
+      "coverImage": "https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=1200&q=80",
+      "order": 1,
+      "pages": [
+        {
+          "slug": "1",
+          "title": "1",
+          "coverImage": "https://lh3.googleusercontent.com/d/1F4QWl4QFesAKN1WD2S5zpUEA4esMvOCd",
+          "order": 1,
+          "body": "<p>Nag-anyaya ng̃ pagpapacain nang isáng hapunan, ng̃ magtátapos ang Octubre, si Guinoong Santiago de los Santos, na lalong nakikilala ng̃ bayan sa pamagát na Capitang Tiago, anyayang bagá man niyón lamang hapong iyón canyang inihayág, laban sa dati niyang caugalìan, gayón ma'y siyang dahil na ng̃ lahát ng̃ mg̃a usap-usapan sa Binundóc, sa iba't ibang mg̃a nayon at hanggang sa loob ng̃ Maynílà. Ng̃ panahóng yao'y lumalagay si Capitang Tiagong isáng lalaking siyang lalong maguilas, at talastas ng̃ ang canyang bahay at ang canyang kinamulatang bayan ay hindî nagsásara ng̃ pintô canino man, liban na lamang sa mg̃a calacal ó sa anó mang isip na bago ó pang̃ahás.</p>"
+        },
+        {
+          "slug": "2",
+          "title": "2",
+          "coverImage": "https://lh3.googleusercontent.com/d/1DKuti2orT3soYZR__V9HhSsAg18wgq67",
+          "order": 2,
+          "body": "<p>Cawang̃is ng̃ kisláp ng̃ lintíc ang cadalîan ng̃ pagcalaganap ng̃ balítà sa daigdigan ng̃ mg̃a dápò, mg̃a lang̃aw ó mg̃a \"colado\", na kinapal ng̃ Dios sa canyang waláng hanggang cabaitan, at canyang pinararami ng̃ boong pag-irog sa Maynílà. Nang̃agsihanap ang ibá nang \"betún\" sa caniláng zapatos, mg̃a botón at corbata naman ang ibá, ng̃uni't siláng lahát ay nang̃ag iisip cung paano cayâ ang mabuting paraang bating lalong waláng cakimìang gagawin sa may bahay, upang papaniwalàin ang macacakitang sila'y malalaon ng̃ caibigan, ó cung magcatao'y huming̃í pang tawad na hindî nacadalóng maaga.</p>"
+        },
+        {
+          "slug": "3",
+          "title": "3",
+          "coverImage": "https://lh3.googleusercontent.com/d/1-phDMo6rbX2NHP4F9-agaaNP8SUxFgTl",
+          "order": 3,
+          "body": "<p>Guinawâ ang anyaya sa paghapong itó sa isáng bahay sa daang Anloague, at yamang hindî namin natatandâan ang canyang bilang (número), aming sásaysayin ang canyang anyô upang makilala ng̃ayón, sacali't hindî pa iguiniguibá ng̃ mg̃a lindól. Hindî camí naniniwalang ipinaguibâ ang bahay na iyon ng̃ may-arì, sa pagca't sa ganitong gawa'y ang namamahala'y ang Dios ó ang Naturaleza, na tumanggap din sa ating Gobierno ng̃ pakikipagcayarì upang gawín ang maraming bagay.—Ang bahay na iyo'y may calakhan din, tulad sa maraming nakikita sa mg̃a lupaíng itó; natatayô sa pampang ng̃ ilog na sang̃á ng̃ ilog Pasig, na cung tawaguin ng̃ iba'y \"ría\" (ilat) ng̃ Binundóc, at gumáganap, na gaya rin ng̃ lahát ng̃ ilog sa Maynílà, ng̃ maraming capacan-ang pagcapaliguan, agusán ng̃ dumí, labahan, pinang̃ing̃isdâan, daanan ng̃ bangcang nagdádala ng̃ sarisaring bagay, at cung magcabihirà pa'y cucunán ng̃ tubig na inumín, cung minamagalíng ng̃ tagaiguib na insíc. Dapat halataíng sa lubháng kinakailang̃ang gamit na itó ng̃ nayong ang dami ng̃ calacal at táong nagpaparoo't parito'y nacatutulig, sa layong halos may sanglibong metro'y bahagyâ na lamang nagcaroon ng̃ isang tuláy na cahoy, na sa anim na bowa'y sirâ ang cabiláng panig at ang cabilâ nama'y hindî maraanan sa nálalabi ng̃ taon, na ano pa't ang mg̃a cabayo, cung panahóng tag-init, canilang sinasamantala ang gayong hindî nagbabagong anyô, upang mulà roo'y lumucsó sa tubig, na ikinagugulat ng̃ nalilibang na táong may camatayang sa loob ng̃ coche ay nacacatulog ó nagdidilidili ng̃ mg̃a paglagô ng̃ panahón.</p>"
+        },
+        {
+          "slug": "4",
+          "title": "4",
+          "coverImage": "https://lh3.googleusercontent.com/d/1ASCGrDTw36l0CxYeIljB4PVF5aqRdlb0",
+          "order": 4,
+          "body": "<p>May cababâan ang bahay na sinasabi namin, at hindî totoong magaling ang pagcacàanyô; cung hindî napagmasdang mabuti ng̃ \"arquitectong\" namatnugot sa paggawâ ó ang bagay na ito'y cagagawán ng̃ mg̃a lindól at mg̃a bagyó, sino ma'y walang macapagsasabi ng̃ tucoy. Isáng malapad na hagdanang ma'y cacapitáng culay verde, at nalalatagan ng̃ alfombra sa mumunting panig ang siyang daanan mulâ sa silong ó macapasoc ng̃ pintuang nalalatagan ng̃ \"azulejos\" hanggang sa cabahayán, na ang linalacara'y napapag-itanan ng̃ mg̃a maceta at álagaan ng̃ mg̃a bulaclac na nacalagay sa \"pedestal\" na lozang gawâ sa China, na may sarisaring culay at may mg̃a dibujong hindî mapaglirip.</p>"
+        }
+      ]
+    }
+  ]
+}

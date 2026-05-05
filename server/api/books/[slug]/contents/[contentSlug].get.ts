@@ -1,5 +1,5 @@
 import { createError } from 'h3'
-import { getBookBySlug, getBookContentByTitleSlug } from '../../../../services/books'
+import { getBookBySlug, getContentBySlug, listContentPages } from '../../../../services/books'
 
 export default defineEventHandler(async (event) => {
   const slug = getRouterParam(event, 'slug')
@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const content = await getBookContentByTitleSlug(book.id, contentSlug)
+  const content = await getContentBySlug(book.id, contentSlug)
 
   if (!content) {
     throw createError({
@@ -30,8 +30,7 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  return {
-    book,
-    content
-  }
+  const pages = await listContentPages(content.id)
+
+  return { book, content, pages }
 })

@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /Users/johnmarkmancol/self-projects/aklatan/server/api/books/\\\\[slug\\\\]/contents/\\\\[contentSlug\\\\]/pages)",
+      "Bash(mkdir -p \"/Users/johnmarkmancol/self-projects/aklatan/app/pages/books/[slug]/contents/[contentSlug]/pages\")"
+    ],
+    "additionalDirectories": [
+      "/Users/johnmarkmancol/self-projects/aklatan/server/api/books/[slug]/contents/[contentSlug]",
+      "/Users/johnmarkmancol/self-projects/aklatan/app/pages/books/[slug]/contents/[contentSlug]"
+    ]
+  }
+}

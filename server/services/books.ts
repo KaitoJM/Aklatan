@@ -11,22 +11,36 @@ export type BookRecord = {
 }
 
 export type ContentRecord = {
+  id: string
   bookId: string
+  slug: string
   title: string
-  content: string
-  image: string
+  coverImage: string
+  order: number
+}
+
+export type PageRecord = {
+  id: string
+  contentId: string
+  slug: string
+  title: string
+  body: string
+  coverImage: string
+  order: number
 }
 
 type StoredBook = WithId<BookRecord & Document>
 type StoredContent = WithId<ContentRecord & Document>
+type StoredPage = WithId<PageRecord & Document>
 
-const booksCollectionName = 'books'
-const contentsCollectionName = 'contents'
+const booksCollection = 'books'
+const contentsCollection = 'contents'
+const pagesCollection = 'pages'
 
 export async function listBooks() {
   const db = await getMongoDb()
   const books = await db
-    .collection<BookRecord>(booksCollectionName)
+    .collection<BookRecord>(booksCollection)
     .find({}, { projection: { _id: 0 } })
     .sort({ title: 1 })
     .toArray()
@@ -37,7 +51,7 @@ export async function listBooks() {
 export async function getBookBySlug(slug: string) {
   const db = await getMongoDb()
   const book = await db
-    .collection<BookRecord>(booksCollectionName)
+    .collection<BookRecord>(booksCollection)
     .findOne({ slug }, { projection: { _id: 0 } })
 
   return book ? serializeBook(book) : null
@@ -46,18 +60,41 @@ export async function getBookBySlug(slug: string) {
 export async function listBookContents(bookId: string) {
   const db = await getMongoDb()
   const contents = await db
-    .collection<ContentRecord>(contentsCollectionName)
+    .collection<ContentRecord>(contentsCollection)
     .find({ bookId }, { projection: { _id: 0 } })
-    .sort({ title: 1 })
+    .sort({ order: 1, title: 1 })
     .toArray()
 
   return contents.map(serializeContent)
 }
 
-export async function getBookContentByTitleSlug(bookId: string, titleSlug: string) {
-  const contents = await listBookContents(bookId)
+export async function getContentBySlug(bookId: string, slug: string) {
+  const db = await getMongoDb()
+  const content = await db
+    .collection<ContentRecord>(contentsCollection)
+    .findOne({ bookId, slug }, { projection: { _id: 0 } })
 
-  return contents.find((content) => slugify(content.title) === titleSlug) || null
+  return content ? serializeContent(content) : null
+}
+
+export async function listContentPages(contentId: string) {
+  const db = await getMongoDb()
+  const pages = await db
+    .collection<PageRecord>(pagesCollection)
+    .find({ contentId }, { projection: { _id: 0 } })
+    .sort({ order: 1, title: 1 })
+    .toArray()
+
+  return pages.map(serializePage)
+}
+
+export async function getPageBySlug(contentId: string, slug: string) {
+  const db = await getMongoDb()
+  const page = await db
+    .collection<PageRecord>(pagesCollection)
+    .findOne({ contentId, slug }, { projection: { _id: 0 } })
+
+  return page ? serializePage(page) : null
 }
 
 function serializeBook(book: BookRecord | StoredBook): BookRecord {
@@ -73,17 +110,23 @@ function serializeBook(book: BookRecord | StoredBook): BookRecord {
 
 function serializeContent(content: ContentRecord | StoredContent): ContentRecord {
   return {
+    id: content.id,
     bookId: content.bookId,
+    slug: content.slug,
     title: content.title,
-    content: content.content,
-    image: content.image
+    coverImage: content.coverImage,
+    order: content.order
   }
 }
 
-function slugify(value: string) {
-  return value
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
+function serializePage(page: PageRecord | StoredPage): PageRecord {
+  return {
+    id: page.id,
+    contentId: page.contentId,
+    slug: page.slug,
+    title: page.title,
+    body: page.body,
+    coverImage: page.coverImage,
+    order: page.order
+  }
 }

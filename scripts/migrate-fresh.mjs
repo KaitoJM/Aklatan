@@ -12,6 +12,7 @@ const uri = process.env.MONGODB_URI
 const dbName = process.env.MONGODB_DB_NAME || 'aklatan'
 const booksCollectionName = process.env.MONGODB_BOOKS_COLLECTION || 'books'
 const contentsCollectionName = process.env.MONGODB_CONTENTS_COLLECTION || 'contents'
+const pagesCollectionName = process.env.MONGODB_PAGES_COLLECTION || 'pages'
 
 if (!uri) {
   console.error('MONGODB_URI is required.')
@@ -25,16 +26,18 @@ try {
 
   const db = client.db(dbName)
 
-  await dropCollectionIfExists(db, booksCollectionName)
+  await dropCollectionIfExists(db, pagesCollectionName)
   await dropCollectionIfExists(db, contentsCollectionName)
+  await dropCollectionIfExists(db, booksCollectionName)
 } finally {
   await client.close()
 }
 
-console.log('Dropped existing seed collections.')
+console.log('\nDropped existing collections. Re-seeding...\n')
 
 await import('./migrate-books.mjs')
 await import('./migrate-contents.mjs')
+await import('./migrate-pages.mjs')
 
 async function dropCollectionIfExists(db, collectionName) {
   const collections = await db
@@ -42,7 +45,7 @@ async function dropCollectionIfExists(db, collectionName) {
     .toArray()
 
   if (!collections.length) {
-    console.log(`Skipped ${db.databaseName}.${collectionName}; collection does not exist.`)
+    console.log(`Skipped ${db.databaseName}.${collectionName} — collection does not exist.`)
     return
   }
 
@@ -56,30 +59,17 @@ async function loadEnv(envPath) {
   try {
     contents = await readFile(envPath, 'utf8')
   } catch (error) {
-    if (error.code === 'ENOENT') {
-      return
-    }
-
+    if (error.code === 'ENOENT') return
     throw error
   }
 
   for (const line of contents.split(/\r?\n/)) {
     const trimmedLine = line.trim()
-
-    if (!trimmedLine || trimmedLine.startsWith('#')) {
-      continue
-    }
-
+    if (!trimmedLine || trimmedLine.startsWith('#')) continue
     const separatorIndex = trimmedLine.indexOf('=')
-
-    if (separatorIndex === -1) {
-      continue
-    }
-
+    if (separatorIndex === -1) continue
     const key = trimmedLine.slice(0, separatorIndex).trim()
     const rawValue = trimmedLine.slice(separatorIndex + 1).trim()
-    const value = rawValue.replace(/^['"]|['"]$/g, '')
-
-    process.env[key] ||= value
+    process.env[key] ||= rawValue.replace(/^['"]|['"]$/g, '')
   }
 }
