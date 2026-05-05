@@ -39,7 +39,7 @@ function pageUrl(p: Page) {
 </script>
 
 <template>
-  <div class="fixed inset-0 -z-10 overflow-hidden">
+  <div class="fixed inset-0 -z-10 overflow-hidden bg-black">
     <Transition name="bg-fade">
       <img
         v-if="page"
@@ -102,7 +102,7 @@ function pageUrl(p: Page) {
         </p>
       </div>
 
-      <div class="grid gap-6 md:grid-cols-[2fr_3fr]">
+      <div class="grid gap-6 md:grid-cols-[2fr_2fr]">
         <div class="md:sticky md:top-8 md:self-start">
           <img
             :src="page.coverImage"
@@ -112,7 +112,10 @@ function pageUrl(p: Page) {
         </div>
 
         <article class="min-w-0 rounded backdrop-blur-sm">
-          <div class="prose prose-slate max-w-none" v-html="page.body" />
+          <div
+            class="prose prose-slate max-w-none text-white/80 text-xl"
+            v-html="page.body"
+          />
         </article>
       </div>
 
@@ -122,7 +125,7 @@ function pageUrl(p: Page) {
           :to="pageUrl(prevPage)"
           class="inline-flex h-10 items-center gap-2 rounded bg-white/10 px-4 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white/20"
         >
-          ← {{ prevPage.title }}
+          ← Previous
         </NuxtLink>
         <span v-else />
 
@@ -135,7 +138,7 @@ function pageUrl(p: Page) {
           :to="pageUrl(nextPage)"
           class="inline-flex h-10 items-center gap-2 rounded bg-white/10 px-4 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white/20"
         >
-          {{ nextPage.title }} →
+          Next →
         </NuxtLink>
         <span v-else />
       </nav>
