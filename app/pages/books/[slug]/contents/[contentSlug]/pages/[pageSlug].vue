@@ -92,15 +92,13 @@ function pageUrl(p: Page) {
         <p class="text-xs font-medium uppercase tracking-wide text-white/50">
           {{ book.title }} · {{ content.title }}
         </p>
-        <h1
-          class="text-2xl font-semibold tracking-tight text-white md:text-3xl"
-        >
-          {{ page.title }}
-        </h1>
-        <p class="text-sm text-white/40">
-          {{ book.author }} · Page {{ pageIndex + 1 }} of {{ pages.length }}
-        </p>
       </div>
+
+      <ReadingProgress
+        :pages="pages"
+        :current-index="pageIndex"
+        :url-prefix="`/books/${bookSlug}/contents/${contentSlug}/pages`"
+      />
 
       <div class="grid gap-6 md:grid-cols-[2fr_2fr]">
         <div class="md:sticky md:top-8 md:self-start">
